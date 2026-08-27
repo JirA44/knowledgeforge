@@ -1,3 +1,5 @@
+> **Présentation → [docs/PRESENTATION.md](docs/PRESENTATION.md)** — à quoi ça sert, cas d'usages, usages futurs.
+
 # KnowledgeForge V1.07
 
 KnowledgeForge est un registre API traçable pour conserver des affirmations versionnées, leurs sources et les extraits qui les soutiennent ou les contredisent. Le système calcule un **état documentaire**, jamais une « vérité » artificielle.
@@ -485,3 +487,4 @@ La fiabilité et la force sont des métadonnées déclarées. En production, leu
 - `.github/workflows/tests.yml` : intégration continue GitHub Actions.
 
 Licence : starter interne, à adapter à la politique du projet qui l'intègre.
+
