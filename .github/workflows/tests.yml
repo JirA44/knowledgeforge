@@ -1,0 +1,49 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Installer le projet
+        run: python -m pip install -e ".[dev]"
+
+      - name: Exécuter les tests
+        run: python -m pytest
+
+      - name: Vérifier la compilation
+        run: python -m compileall -q app tests
+
+      - name: Vérifier OpenAPI statique et runtime
+        shell: python
+        run: |
+          from pathlib import Path
+          import yaml
+          from app.main import app
+
+          static = yaml.safe_load(Path("openapi.yaml").read_text(encoding="utf-8"))
+          assert static == app.openapi()
+          assert static["openapi"] == "3.1.0"
+          assert static["info"]["version"] == "1.0.7"
+          assert "/v1/evidence-gap-dossiers" in static["paths"]
+          assert "/v1/evidence-gap-dossiers/{dossier_id}" in static["paths"]

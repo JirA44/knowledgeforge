@@ -1,0 +1,1148 @@
+openapi: 3.1.0
+info:
+  title: KnowledgeForge API
+  summary: Registre traçable d'affirmations et d'éléments probants
+  description: KnowledgeForge calcule des verdicts documentaires reproductibles à
+    partir de liens explicites. Un verdict n'est jamais présenté comme une vérité
+    factuelle.
+  version: 1.0.7
+paths:
+  /health:
+    get:
+      tags:
+      - system
+      summary: Health
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Health Health Get
+  /info:
+    get:
+      tags:
+      - system
+      summary: Info
+      operationId: info_info_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Info Info Get
+  /sources:
+    post:
+      tags:
+      - sources
+      summary: Create Source
+      operationId: create_source_sources_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SourceCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /sources/{source_id}:
+    get:
+      tags:
+      - sources
+      summary: Get Source
+      operationId: get_source_sources__source_id__get
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Source Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims:
+    post:
+      tags:
+      - claims
+      summary: Create Claim
+      operationId: create_claim_claims_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}:
+    get:
+      tags:
+      - claims
+      summary: Get Claim
+      operationId: get_claim_claims__claim_id__get
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}/versions:
+    post:
+      tags:
+      - claims
+      summary: Create Version
+      operationId: create_version_claims__claim_id__versions_post
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimVersionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}/evidence:
+    post:
+      tags:
+      - evidence
+      summary: Add Evidence
+      operationId: add_evidence_claims__claim_id__evidence_post
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvidenceCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /evidence/{evidence_id}/verify:
+    get:
+      tags:
+      - evidence
+      summary: Verify Evidence
+      operationId: verify_evidence_evidence__evidence_id__verify_get
+      parameters:
+      - name: evidence_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evidence Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}/relations:
+    post:
+      tags:
+      - relations
+      summary: Add Claim Relation
+      operationId: add_claim_relation_claims__claim_id__relations_post
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimRelationCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}/assessment:
+    get:
+      tags:
+      - assessment
+      summary: Assess Claim
+      operationId: assess_claim_claims__claim_id__assessment_get
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+          title: Version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}/contradictions:
+    get:
+      tags:
+      - assessment
+      summary: Detect Contradictions
+      operationId: detect_contradictions_claims__claim_id__contradictions_get
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+          title: Version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}/coverage-reports:
+    post:
+      tags:
+      - coverage
+      summary: Create Coverage Report
+      operationId: create_coverage_report_claims__claim_id__coverage_reports_post
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoverageReportCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /coverage-reports/{report_id}:
+    get:
+      tags:
+      - coverage
+      summary: Get Coverage Report
+      operationId: get_coverage_report_coverage_reports__report_id__get
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claims/{claim_id}/impact-reports:
+    post:
+      tags:
+      - impact
+      summary: Create Impact Report
+      operationId: create_impact_report_claims__claim_id__impact_reports_post
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImpactReportCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /impact-reports/{report_id}:
+    get:
+      tags:
+      - impact
+      summary: Get Impact Report
+      operationId: get_impact_report_impact_reports__report_id__get
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /contradiction-dossiers:
+    post:
+      tags:
+      - contradictions
+      summary: Create Contradiction Dossier
+      operationId: create_contradiction_dossier_contradiction_dossiers_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContradictionDossierCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /contradiction-dossiers/{dossier_id}:
+    get:
+      tags:
+      - contradictions
+      summary: Get Contradiction Dossier
+      operationId: get_contradiction_dossier_contradiction_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /provenance-dossiers:
+    post:
+      tags:
+      - provenance
+      summary: Create Provenance Dossier
+      operationId: create_provenance_dossier_provenance_dossiers_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvenanceDossierCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - provenance
+      summary: List Provenance Dossiers
+      operationId: list_provenance_dossiers_provenance_dossiers_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /provenance-dossiers/{dossier_id}:
+    get:
+      tags:
+      - provenance
+      summary: Get Provenance Dossier
+      operationId: get_provenance_dossier_provenance_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /trust-alignment-dossiers:
+    post:
+      tags:
+      - trust-alignment
+      summary: Create Trust Alignment Dossier
+      operationId: create_trust_alignment_dossier_trust_alignment_dossiers_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrustAlignmentDossierCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - trust-alignment
+      summary: List Trust Alignment Dossiers
+      operationId: list_trust_alignment_dossiers_trust_alignment_dossiers_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /trust-alignment-dossiers/{dossier_id}:
+    get:
+      tags:
+      - trust-alignment
+      summary: Get Trust Alignment Dossier
+      operationId: get_trust_alignment_dossier_trust_alignment_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claim-evolution-dossiers:
+    post:
+      tags:
+      - claim-evolution
+      summary: Create Claim Evolution Dossier
+      operationId: create_claim_evolution_dossier_claim_evolution_dossiers_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimEvolutionDossierCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - claim-evolution
+      summary: List Claim Evolution Dossiers
+      operationId: list_claim_evolution_dossiers_claim_evolution_dossiers_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /claim-evolution-dossiers/{dossier_id}:
+    get:
+      tags:
+      - claim-evolution
+      summary: Get Claim Evolution Dossier
+      operationId: get_claim_evolution_dossier_claim_evolution_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evidence-gap-dossiers:
+    post:
+      tags:
+      - evidence-gaps
+      summary: Create Evidence Gap Dossier
+      operationId: create_evidence_gap_dossier_v1_evidence_gap_dossiers_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvidenceGapDossierCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - evidence-gaps
+      summary: List Evidence Gap Dossiers
+      operationId: list_evidence_gap_dossiers_v1_evidence_gap_dossiers_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evidence-gap-dossiers/{dossier_id}:
+    get:
+      tags:
+      - evidence-gaps
+      summary: Get Evidence Gap Dossier
+      operationId: get_evidence_gap_dossier_v1_evidence_gap_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ClaimCreate:
+      properties:
+        statement:
+          type: string
+          maxLength: 20000
+          minLength: 3
+          title: Statement
+        context:
+          anyOf:
+          - type: string
+            maxLength: 20000
+          - type: 'null'
+          title: Context
+        declared_confidence:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Declared Confidence
+      additionalProperties: false
+      type: object
+      required:
+      - statement
+      title: ClaimCreate
+    ClaimEvolutionDossierCreate:
+      properties:
+        claim_version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 50
+          minItems: 2
+          title: Claim Version Ids
+      additionalProperties: false
+      type: object
+      required:
+      - claim_version_ids
+      title: ClaimEvolutionDossierCreate
+      description: Selects only persisted versions; all chronological measures are derived.
+    ClaimRelationCreate:
+      properties:
+        related_claim_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Related Claim Id
+        relation:
+          type: string
+          enum:
+          - SUPPORTS
+          - CONTRADICTS
+          title: Relation
+        from_version_number:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: From Version Number
+        related_version_number:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Related Version Number
+        note:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Note
+      additionalProperties: false
+      type: object
+      required:
+      - related_claim_id
+      - relation
+      title: ClaimRelationCreate
+    ClaimVersionCreate:
+      properties:
+        statement:
+          type: string
+          maxLength: 20000
+          minLength: 3
+          title: Statement
+        context:
+          anyOf:
+          - type: string
+            maxLength: 20000
+          - type: 'null'
+          title: Context
+        declared_confidence:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Declared Confidence
+        change_note:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Change Note
+        expected_current_version:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Expected Current Version
+      additionalProperties: false
+      type: object
+      required:
+      - statement
+      title: ClaimVersionCreate
+    ContradictionDossierCreate:
+      properties:
+        claim_version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          minItems: 2
+          title: Claim Version Ids
+      additionalProperties: false
+      type: object
+      required:
+      - claim_version_ids
+      title: ContradictionDossierCreate
+      description: 'Selects only the immutable claim versions to compare.
+
+
+        Depth, qualifications, evidence thresholds and every conclusion are fixed
+
+        server policy and therefore cannot be supplied by a client.'
+    CoverageReportCreate:
+      properties:
+        claim_version_number:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Claim Version Number
+        as_of:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: As Of
+      additionalProperties: false
+      type: object
+      title: CoverageReportCreate
+      description: 'Selects the immutable claim version and reference date to snapshot.
+
+
+        All coverage, freshness, integrity and qualification fields are deliberately
+
+        absent: they are derived by the server.'
+    EvidenceCreate:
+      properties:
+        source_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Source Id
+        excerpt:
+          type: string
+          maxLength: 50000
+          minLength: 1
+          title: Excerpt
+        locator:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Locator
+        strength:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Strength
+          default: 0.75
+        relation:
+          type: string
+          enum:
+          - SUPPORTS
+          - CONTRADICTS
+          title: Relation
+        claim_version_number:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Claim Version Number
+        note:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Note
+      additionalProperties: false
+      type: object
+      required:
+      - source_id
+      - excerpt
+      - relation
+      title: EvidenceCreate
+    EvidenceGapDossierCreate:
+      properties:
+        claim_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Claim Id
+        claim_version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Claim Version Ids
+        evidence_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 99
+          title: Evidence Ids
+      additionalProperties: false
+      type: object
+      required:
+      - claim_id
+      - claim_version_ids
+      title: EvidenceGapDossierCreate
+      description: Selects one claim and 2..100 persisted version/evidence references.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ImpactReportCreate:
+      properties:
+        claim_version_number:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Claim Version Number
+        max_depth:
+          type: integer
+          maximum: 8.0
+          minimum: 1.0
+          title: Max Depth
+          default: 3
+      additionalProperties: false
+      type: object
+      title: ImpactReportCreate
+      description: 'Selects the root version and the bounded deterministic traversal.
+
+
+        A qualification, affected claims and paths are intentionally absent: the
+
+        server derives them exclusively from the stored relation graph.'
+    ProvenanceDossierCreate:
+      properties:
+        claim_version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          minItems: 1
+          title: Claim Version Ids
+      additionalProperties: false
+      type: object
+      required:
+      - claim_version_ids
+      title: ProvenanceDossierCreate
+      description: Selects only immutable claim versions for source-independence analysis.
+    SourceCreate:
+      properties:
+        url:
+          type: string
+          maxLength: 2048
+          minLength: 3
+          title: Url
+        title:
+          type: string
+          maxLength: 500
+          minLength: 1
+          title: Title
+        publisher:
+          anyOf:
+          - type: string
+            maxLength: 300
+          - type: 'null'
+          title: Publisher
+        published_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Published At
+        reliability:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Reliability
+          default: 0.75
+      additionalProperties: false
+      type: object
+      required:
+      - url
+      - title
+      title: SourceCreate
+    TrustAlignmentDossierCreate:
+      properties:
+        claim_version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          minItems: 1
+          title: Claim Version Ids
+      additionalProperties: false
+      type: object
+      required:
+      - claim_version_ids
+      title: TrustAlignmentDossierCreate
+      description: Selects persisted claim versions; all alignment results are server-derived.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
