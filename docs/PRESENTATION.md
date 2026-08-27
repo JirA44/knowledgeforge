@@ -26,3 +26,16 @@ curl -X POST http://localhost:8000/v1/gap-dossiers -d '{"knowledge_ids": [...] }
 
 ## Pour qui ?
 Devs, auditeurs, ops, chercheurs — qui ont besoin d'une preuve opposable, pas d'un verdict déclaratif.
+
+## Problèmes réglés (détaillés)
+- **Knowledgeforge** → - Preuve / dossier / trace non opposable → résolu par dossier immuable et hash SHA-256
+- **Knowledgeforge** → - Verdict déclaratif sans justification → le dossier expose obligations, fournisseurs et ratios
+- **Knowledgeforge** → - Chaînage caché ou lacune invisible → serveur recharge et recalcule indépendamment du client
+- **Knowledgeforge** → - Tiers qui ne peut pas relancer → le dossier est public et rejouable sans clé client
+
+## Exemples d'utilisation (scénarios réels)
+- **Wiki : lacunes par dossier détectées** → le dossier sert de preuve technique (pas d'autorité déclarative)
+- **Support : 100 questions / 40 articles** → le dossier sert de preuve technique (pas d'autorité déclarative)
+- **Produit : chaque feature documentée** → le dossier sert de preuve technique (pas d'autorité déclarative)
+
+
