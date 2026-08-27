@@ -1,4 +1,4 @@
-# Knowledgeforge — Présentation complète
+# KnowledgeForge — Présentation complète
 
 ## Présentation
 knowledgeforge est un registre immuable, hashé (SHA-256), auditable et rejouable.
