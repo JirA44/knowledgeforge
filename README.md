@@ -9,6 +9,20 @@ KnowledgeForge est un registre API traçable pour conserver des affirmations ver
 
 
 ---
+## English — overview
+
+KnowledgeForge is a traceable knowledge registry for versioned claims, sources and supporting or contradicting excerpts. It reports the state of the documentation and its gaps; it does not decide what is true.
+
+### What is it for, and why use it?
+
+It helps teams keep evidence next to a claim, preserve changes over time and spot unsupported or conflicting statements instead of losing that context in a document.
+
+### Examples
+
+- Record sources and excerpts for a product or policy claim.
+- Review evidence supporting and contradicting a knowledge-base entry.
+- Find documentation gaps before handing material to support or an auditor.
+
 ## À quoi ça sert (direct)
 **Connaissance documentée — chaque lacune détectée et couverte.**
 
